@@ -1,0 +1,33 @@
+{
+    "events": [
+      {
+        "id": 1,
+        "title": "Music Festival 2025",
+        "image": "https://via.placeholder.com/300x200?text=Music+Festival",
+        "location": "Nairobi, Kenya",
+        "date": "2025-06-10",
+        "remainingTickets": 50,
+        "description": "Join us for a day of live performances and entertainment at the annual Music Festival."
+      },
+      {
+        "id": 2,
+        "title": "Tech Conference 2025",
+        "image": "https://via.placeholder.com/300x200?text=Tech+Conference",
+        "location": "Mombasa, Kenya",
+        "date": "2025-07-20",
+        "remainingTickets": 30,
+        "description": "Network with industry leaders and learn about the latest tech trends."
+      },
+      {
+        "id": 3,
+        "title": "Art Expo 2025",
+        "image": "https://via.placeholder.com/300x200?text=Art+Expo",
+        "location": "Kisumu, Kenya",
+        "date": "2025-08-15",
+        "remainingTickets": 75,
+        "description": "Explore creative works by top local and international artists."
+      }
+    ],
+    "bookings": []
+  }
+  
