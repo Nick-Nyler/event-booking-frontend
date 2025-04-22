@@ -1,66 +1,50 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-export default function EventDetail({ events, addBooking }) {
+function EventDetail() {
   const { id } = useParams();
-  const event = events.find((e) => e.id === parseInt(id));
-  const [form, setForm] = useState({ name: "", tickets: 1 });
-  const navigate = useNavigate();
+  const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    const newBooking = {
-      eventId: event.id,
-      userName: form.name,
-      numTickets: parseInt(form.tickets),
-    };
-
-    fetch("http://localhost:3000/bookings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newBooking),
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        addBooking(data);
-        fetch(`http://localhost:3000/events/${event.id}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ tickets: event.tickets - data.numTickets }),
-        });
-        navigate("/bookings");
+  useEffect(() => {
+    fetch(`http://localhost:3000/events/${id}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        setEvent(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error);
+        setLoading(false);
       });
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading event details...</div>;
   }
 
-  if (!event) return <h2>Event not found</h2>;
+  if (error) {
+    return <div>Error loading event details: {error.message}</div>;
+  }
+
+  if (!event) {
+    return <div>Event not found.</div>;
+  }
 
   return (
-    <div>
+    <div className="event-detail-page">
       <h2>{event.title}</h2>
-      <p>{event.description}</p>
-      <p>Tickets Remaining: {event.tickets}</p>
-      <form onSubmit={handleSubmit}>
-        <input
-          name="name"
-          placeholder="Your Name"
-          value={form.name}
-          onChange={handleChange}
-        />
-        <input
-          name="tickets"
-          type="number"
-          min="1"
-          max={event.tickets}
-          value={form.tickets}
-          onChange={handleChange}
-        />
-        <button type="submit">Book Now</button>
-      </form>
+      <p>Date: {event.date}</p>
+      <p>Description: {event.description}</p>
+      {/* Add more details or actions here */}
     </div>
   );
 }
+
+export default EventDetail;

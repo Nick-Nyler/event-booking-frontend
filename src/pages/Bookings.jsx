@@ -1,17 +1,13 @@
-export default function Bookings({ bookings, events }) {
-    return (
-      <div>
-        <h1>My Booked Events</h1>
-        {bookings.map((booking) => {
-          const event = events.find((e) => e.id === booking.eventId);
-          return (
-            <div key={booking.id} className="card">
-              <h3>{event?.title}</h3>
-              <p>Tickets Booked: {booking.numTickets}</p>
-              <p>Name: {booking.userName}</p>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
+import React from 'react';
+
+function Bookings() {
+  return (
+    <div className="bookings-page">
+      <h2>Your Bookings</h2>
+      <p>This page will display your event bookings.</p>
+      {/* You would fetch and display booking data here */}
+    </div>
+  );
+}
+
+export default Bookings;

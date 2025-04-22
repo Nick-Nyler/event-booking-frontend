@@ -1,48 +1,37 @@
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Events from "./pages/Events";
-import EventDetail from "./pages/EventDetail";
-import Bookings from "./pages/Bookings";
-import Contact from "./pages/Contact";
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Events from './pages/Events';
+import Bookings from './pages/Bookings';
+import Contact from './pages/Contact';
+import EventDetail from './pages/EventDetail';
+import './App.css';
 
 function App() {
-  const [events, setEvents] = useState([]);
-  const [bookings, setBookings] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:3000/events")
-      .then((r) => r.json())
-      .then(setEvents);
-
-    fetch("http://localhost:3000/bookings")
-      .then((r) => r.json())
-      .then(setBookings);
-  }, []);
-
-  function addBooking(newBooking) {
-    setBookings([...bookings, newBooking]);
-  }
-
   return (
     <Router>
-      <nav className="navbar">
-        <Link to="/">Events</Link>
-        <Link to="/bookings">My Bookings</Link>
-        <Link to="/contact">Contact Us</Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Events events={events} />} />
-        <Route
-          path="/events/:id"
-          element={<EventDetail events={events} addBooking={addBooking} />}
-        />
-        <Route
-          path="/bookings"
-          element={<Bookings bookings={bookings} events={events} />}
-        />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+      <div className="app-container">
+        <nav className="main-nav">
+          <ul>
+            <li>
+              <Link to="/events">Events</Link>
+            </li>
+            <li>
+              <Link to="/bookings">Bookings</Link>
+            </li>
+            <li>
+              <Link to="/contact">Contact</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route path="/events" element={<Events />} />
+          <Route path="/bookings" element={<Bookings />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/events/:id" element={<EventDetail />} />
+          <Route path="/" element={<Events />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
